@@ -16,7 +16,7 @@ jobs:
         run: npm install
 
       - name: Tar dependencies
-        run: tar -zcvf node_modules.tar.gz node_modules
+        run: tar -czvf node_modules.tar.gz node_modules
 
       - name: Upload artifact
         uses: actions/upload-artifact@main
@@ -38,7 +38,7 @@ jobs:
           path: node_modules.tar.gz
 
       - name: Extract dependencies
-        run: mkdir node_modules && tar -zxvf node_modules.tar.gz -C node_modules/
+        run: tar -xzfv node_modules.tar.gz
 
       - name: Generate build
         run: npm run build
@@ -61,7 +61,7 @@ jobs:
           path: node_modules.tar.gz
 
       - name: Extract dependencies
-        run: mkdir node_modules && tar -zxvf node_modules.tar.gz -C node_modules/
+        run: tar -xzfv node_modules.tar.gz
 
       - name: npm test
         run: npm test
