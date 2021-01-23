@@ -22,7 +22,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-dependencies
-          path: node_modules.tar.gz
+          path: node_modules.zip
           retention-days: 1
   # generate build
   build:
