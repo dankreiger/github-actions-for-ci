@@ -1,5 +1,9 @@
 name: Node CI
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 jobs:
   # install dependencies
   install:
@@ -34,7 +38,7 @@ jobs:
           path: node_modules.tar.gz
 
       - name: Extract dependencies
-        run: tar -zxvf node_modules.tar.gz  
+        run: mkdir node_modules && tar -zxvf node_modules.tar.gz -C node_modules/
 
       - name: Generate build
         run: npm run build
@@ -57,7 +61,7 @@ jobs:
           path: node_modules.tar.gz
 
       - name: Extract dependencies
-        run: tar -zxvf node_modules.tar.gz  
+        run: mkdir node_modules && tar -zxvf node_modules.tar.gz -C node_modules/
 
       - name: npm test
         run: npm test
