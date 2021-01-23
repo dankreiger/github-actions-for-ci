@@ -15,14 +15,11 @@ jobs:
       - name: npm install
         run: npm install
 
-      - name: Tar dependencies
-        run: zip node_modules.zip node_modules
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-dependencies
-          path: node_modules.zip
+          path: node_modules
           retention-days: 1
   # generate build
   build:
@@ -37,8 +34,6 @@ jobs:
         with:
           name: app-dependencies
 
-      - name: Extract dependencies
-        run: unzip node_modules.zip
 
       - name: Generate build
         run: npm run build
@@ -59,8 +54,6 @@ jobs:
         with:
           name: app-dependencies
 
-      - name: Extract dependencies
-        run: unzip node_modules.zip
 
       - name: npm test
         run: npm test
