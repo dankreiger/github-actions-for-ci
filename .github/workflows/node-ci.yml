@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Checkout project    
         uses: actions/checkout@v2
+     
+
+      - name: npm install
+        run: npm install 
+
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -23,10 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-        
-
-      - name: npm install
-        run: npm install 
+            ${{ runner.os }}-           
 
 
   # generate build
