@@ -59,6 +59,9 @@ jobs:
         with:
           name: app-dependencies
 
+      - name: Display structure of downloaded files
+        run: ls -R          
+
       - name: Extract dependencies
         run: tar -xzfv node_modules.tar.gz
 
