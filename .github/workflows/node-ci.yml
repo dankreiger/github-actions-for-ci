@@ -12,18 +12,23 @@ jobs:
       - name: Checkout project    
         uses: actions/checkout@v2
 
-      - name: npm install
-        run: npm install      
-
-      - name: Tar dependencies
-        run: tar -czvf node_modules.tar.gz node_modules
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          name: app-dependencies
-          path: node_modules.tar.gz
-          retention-days: 5
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-        
+
+      - name: npm install
+        run: npm install 
+
+
   # generate build
   build:
     needs: install
@@ -32,13 +37,18 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
 
-      - name: Download dependencies
-        uses: actions/download-artifact@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          name: app-dependencies
-
-      - name: Extract dependencies
-        run: tar -xzfv node_modules.tar.gz
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-  
 
       - name: Generate build
         run: npm run build
@@ -54,16 +64,20 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v2
 
-      - name: Download dependencies
-        uses: actions/download-artifact@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
         with:
-          name: app-dependencies
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-          
 
-      - name: Display structure of downloaded files
-        run: ls -R          
 
-      - name: Extract dependencies
-        run: tar -xzfv node_modules.tar.gz
 
       - name: npm test
         run: npm test
