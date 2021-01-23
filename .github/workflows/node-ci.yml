@@ -19,10 +19,9 @@ jobs:
         run: tar -czvf node_modules.tar.gz node_modules
 
       - name: Upload artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v2
         with:
-          name: 'app dependencies artifact'
-          path: node_modules.tar.gz
+          name: app-dependencies
   # generate build
   build:
     needs: install
@@ -32,10 +31,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download dependencies
-        uses: actions/download-artifact@main
+        uses: actions/download-artifact@v2
         with:
-          name: 'app dependencies artifact'
-          path: node_modules.tar.gz
+          name: app-dependencies
 
       - name: Extract dependencies
         run: tar -xzfv node_modules.tar.gz
@@ -55,9 +53,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download dependencies
-        uses: actions/download-artifact@main
+        uses: actions/download-artifact@v2
         with:
-          name: 'app dependencies artifact'
+          name: app-dependencies
           path: node_modules.tar.gz
 
       - name: Extract dependencies
